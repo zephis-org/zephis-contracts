@@ -1,0 +1,48 @@
+{
+  "name": "@zephis-org/contracts",
+  "version": "0.1.0",
+  "description": "Smart contracts for ZEPHIS Protocol - Zero Exposure Proof Handling Isolated Sessions",
+  "main": "out/package.json",
+  "files": [
+    "out/**/*",
+    "src/**/*.sol"
+  ],
+  "scripts": {
+    "build": "forge build",
+    "test": "forge test",
+    "test:coverage": "forge coverage",
+    "test:gas": "forge test --gas-report",
+    "test:security": "forge test --profile security",
+    "clean": "forge clean",
+    "lint:sol": "solhint 'src/**/*.sol'",
+    "lint:sol:fix": "solhint 'src/**/*.sol' --fix",
+    "security:slither": "slither . --json security-reports/slither-report.json || true",
+    "security:analyze": "npm run security:slither",
+    "security:full": "mkdir -p security-reports && npm run security:slither",
+    "docs": "forge doc",
+    "deploy:local": "forge script script/Deploy.s.sol --fork-url http://localhost:8545 --broadcast",
+    "deploy:sepolia": "forge script script/Deploy.s.sol --rpc-url $SEPOLIA_RPC_URL --broadcast --verify",
+    "deploy:mainnet": "forge script script/Deploy.s.sol --rpc-url $MAINNET_RPC_URL --broadcast --verify",
+    "format": "forge fmt"
+  },
+  "keywords": [
+    "zephis",
+    "smart-contracts", 
+    "solidity",
+    "zero-knowledge",
+    "zk-proofs",
+    "verification",
+    "governance", 
+    "ethereum",
+    "foundry"
+  ],
+  "author": "ZEPHIS Protocol",
+  "license": "MIT",
+  "devDependencies": {
+    "solhint": "^5.0.3"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/zephis-org/zephis-contracts.git"
+  }
+}

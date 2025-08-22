@@ -16,6 +16,7 @@ contract TestTLSNVerifierForFinalLines is TLSNVerifier {
         TLSNProofComponents memory components = TLSNProofComponents({
             tlsTranscript: abi.encode("test"),
             notarySignature: abi.encode("signature"),
+            notaryPubKey: abi.encodePacked(address(0x1234)),
             sessionHash: keccak256("session"), 
             transcriptHash: keccak256("different"), // Hash mismatch
             timestamp: block.timestamp,
@@ -41,6 +42,7 @@ contract TestTLSNVerifierForFinalLines is TLSNVerifier {
         TLSNProofComponents memory components = TLSNProofComponents({
             tlsTranscript: abi.encode("test"),
             notarySignature: abi.encode("signature"),
+            notaryPubKey: abi.encodePacked(address(0x1234)),
             sessionHash: keccak256("session"),
             transcriptHash: keccak256(abi.encode("test")),
             timestamp: block.timestamp,

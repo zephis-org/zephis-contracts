@@ -17,6 +17,7 @@ contract TLSNVerifierInternalTest is Test {
         TLSNVerifier.TLSNProofComponents memory components = TLSNVerifier.TLSNProofComponents({
             tlsTranscript: abi.encode("GET / HTTP/1.1\r\nHost: api.example.com\r\n\r\n"),
             notarySignature: abi.encode("notary_signature"),
+            notaryPubKey: abi.encodePacked(address(0x1234)),
             sessionHash: keccak256("session"),
             transcriptHash: keccak256("wrong_hash"), // Intentional mismatch
             timestamp: block.timestamp,
@@ -31,6 +32,7 @@ contract TLSNVerifierInternalTest is Test {
         TLSNVerifier.TLSNProofComponents memory components = TLSNVerifier.TLSNProofComponents({
             tlsTranscript: abi.encode("GET / HTTP/1.1\r\nHost: api.example.com\r\n\r\n"),
             notarySignature: abi.encode("notary_signature"),
+            notaryPubKey: abi.encodePacked(address(0x1234)),
             sessionHash: bytes32(0), // Invalid session hash
             transcriptHash: keccak256(abi.encode("GET / HTTP/1.1\r\nHost: api.example.com\r\n\r\n")),
             timestamp: block.timestamp,
@@ -45,6 +47,7 @@ contract TLSNVerifierInternalTest is Test {
         TLSNVerifier.TLSNProofComponents memory components = TLSNVerifier.TLSNProofComponents({
             tlsTranscript: abi.encode("GET / HTTP/1.1\r\nHost: api.example.com\r\n\r\n"),
             notarySignature: abi.encode("notary_signature"),
+            notaryPubKey: abi.encodePacked(address(0x1234)),
             sessionHash: keccak256("session"),
             transcriptHash: keccak256(abi.encode("GET / HTTP/1.1\r\nHost: api.example.com\r\n\r\n")),
             timestamp: block.timestamp + 1000, // Future timestamp > 5 min tolerance
@@ -62,6 +65,7 @@ contract TLSNVerifierInternalTest is Test {
         TLSNVerifier.TLSNProofComponents memory components = TLSNVerifier.TLSNProofComponents({
             tlsTranscript: abi.encode("GET / HTTP/1.1\r\nHost: api.example.com\r\n\r\n"),
             notarySignature: abi.encode("notary_signature"),
+            notaryPubKey: abi.encodePacked(address(0x1234)),
             sessionHash: keccak256("session"),
             transcriptHash: keccak256(abi.encode("GET / HTTP/1.1\r\nHost: api.example.com\r\n\r\n")),
             timestamp: block.timestamp - 31 days, // Old timestamp
@@ -76,6 +80,7 @@ contract TLSNVerifierInternalTest is Test {
         TLSNVerifier.TLSNProofComponents memory components = TLSNVerifier.TLSNProofComponents({
             tlsTranscript: abi.encode("GET / HTTP/1.1\r\nHost: api.example.com\r\n\r\n"),
             notarySignature: abi.encode("notary_signature"),
+            notaryPubKey: abi.encodePacked(address(0x1234)),
             sessionHash: keccak256("session"),
             transcriptHash: keccak256(abi.encode("GET / HTTP/1.1\r\nHost: api.example.com\r\n\r\n")),
             timestamp: block.timestamp,
@@ -90,6 +95,7 @@ contract TLSNVerifierInternalTest is Test {
         TLSNVerifier.TLSNProofComponents memory components = TLSNVerifier.TLSNProofComponents({
             tlsTranscript: abi.encode("test"),
             notarySignature: "", // Empty signature
+            notaryPubKey: abi.encodePacked(address(0x1234)),
             sessionHash: keccak256("session"),
             transcriptHash: keccak256("hash"),
             timestamp: block.timestamp,
@@ -104,6 +110,7 @@ contract TLSNVerifierInternalTest is Test {
         TLSNVerifier.TLSNProofComponents memory components = TLSNVerifier.TLSNProofComponents({
             tlsTranscript: abi.encode("test_transcript"),
             notarySignature: abi.encode("signature"),
+            notaryPubKey: abi.encodePacked(address(0x1234)),
             sessionHash: keccak256("session"),
             transcriptHash: keccak256("wrong_hash"), // Hash mismatch
             timestamp: block.timestamp,
@@ -119,6 +126,7 @@ contract TLSNVerifierInternalTest is Test {
         TLSNVerifier.TLSNProofComponents memory components = TLSNVerifier.TLSNProofComponents({
             tlsTranscript: shortTranscript,
             notarySignature: abi.encode("signature"),
+            notaryPubKey: abi.encodePacked(address(0x1234)),
             sessionHash: keccak256("session"),
             transcriptHash: keccak256(shortTranscript),
             timestamp: block.timestamp,
@@ -133,6 +141,7 @@ contract TLSNVerifierInternalTest is Test {
         TLSNVerifier.TLSNProofComponents memory components = TLSNVerifier.TLSNProofComponents({
             tlsTranscript: "", // Empty transcript  
             notarySignature: abi.encode("notary_signature"),
+            notaryPubKey: abi.encodePacked(address(0x1234)),
             sessionHash: keccak256("session"),
             transcriptHash: keccak256(abi.encode("GET / HTTP/1.1\r\nHost: api.example.com\r\n\r\n")),
             timestamp: block.timestamp,
@@ -147,6 +156,7 @@ contract TLSNVerifierInternalTest is Test {
         TLSNVerifier.TLSNProofComponents memory components = TLSNVerifier.TLSNProofComponents({
             tlsTranscript: abi.encode("GET / HTTP/1.1\r\nHost: api.example.com\r\n\r\n"),
             notarySignature: abi.encode("notary_signature"),
+            notaryPubKey: abi.encodePacked(address(0x1234)),
             sessionHash: keccak256("session"),
             transcriptHash: keccak256(abi.encode("GET / HTTP/1.1\r\nHost: api.example.com\r\n\r\n")),
             timestamp: block.timestamp,

@@ -22,7 +22,7 @@ contract TestTLSNVerifierInternal is TLSNVerifier {
     // Expose internal notary validation for testing
     function testValidateNotarySignature(TLSNProofComponents memory components) 
         external 
-        pure 
+        view 
         returns (bool) 
     {
         return _validateNotarySignature(components);

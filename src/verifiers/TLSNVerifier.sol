@@ -24,6 +24,7 @@ contract TLSNVerifier is ZKProofVerifier {
     struct TLSNProofComponents {
         bytes tlsTranscript;            // Raw TLS transcript
         bytes notarySignature;          // Notary signature
+        bytes notaryPubKey;             // Notary public key
         bytes32 sessionHash;           // TLS session hash
         bytes32 transcriptHash;         // Transcript commitment hash
         uint256 timestamp;              // Session timestamp
@@ -213,25 +214,90 @@ contract TLSNVerifier is ZKProofVerifier {
         pure 
         returns (string memory serverName) 
     {
-        // Simplified SNI extraction - in production this would be more robust
-        // This is a placeholder implementation
-        if (transcript.length < 100) {
+        if (transcript.length < 43) { // Minimum TLS ClientHello size
             return "";
         }
         
-        // Look for SNI extension in ClientHello
-        // This is a simplified version - real implementation would properly parse TLS
-        for (uint256 i = 0; i < transcript.length - 20; i++) {
-            if (transcript[i] == 0x00 && transcript[i+1] == 0x00) { // Server Name extension
-                uint256 nameLength = uint256(uint8(transcript[i+7]));
-                if (nameLength > 0 && i + 8 + nameLength <= transcript.length) {
-                    bytes memory nameBytes = new bytes(nameLength);
-                    for (uint256 j = 0; j < nameLength; j++) {
-                        nameBytes[j] = transcript[i + 8 + j];
-                    }
-                    return string(nameBytes);
+        // Parse TLS Record Layer: type(1) + version(2) + length(2) = 5 bytes
+        if (transcript[0] != 0x16) { // Must be Handshake type
+            return "";
+        }
+        
+        uint256 recordLength = (uint256(uint8(transcript[3])) << 8) | uint256(uint8(transcript[4]));
+        if (recordLength + 5 > transcript.length) {
+            return "";
+        }
+        
+        // Parse Handshake Header: type(1) + length(3) = 4 bytes
+        if (transcript[5] != 0x01) { // Must be ClientHello
+            return "";
+        }
+        
+        // Skip handshake length, version, random (32 bytes), session ID
+        uint256 pos = 5 + 4 + 2 + 32; // Start after version and random
+        
+        if (pos >= transcript.length) return "";
+        
+        // Skip Session ID
+        uint256 sessionIdLen = uint256(uint8(transcript[pos]));
+        pos += 1 + sessionIdLen;
+        
+        if (pos + 2 >= transcript.length) return "";
+        
+        // Skip Cipher Suites
+        uint256 cipherSuitesLen = (uint256(uint8(transcript[pos])) << 8) | uint256(uint8(transcript[pos + 1]));
+        pos += 2 + cipherSuitesLen;
+        
+        if (pos + 1 >= transcript.length) return "";
+        
+        // Skip Compression Methods
+        uint256 compressionMethodsLen = uint256(uint8(transcript[pos]));
+        pos += 1 + compressionMethodsLen;
+        
+        if (pos + 2 >= transcript.length) return "";
+        
+        // Parse Extensions
+        uint256 extensionsLen = (uint256(uint8(transcript[pos])) << 8) | uint256(uint8(transcript[pos + 1]));
+        pos += 2;
+        
+        uint256 extensionsEnd = pos + extensionsLen;
+        
+        while (pos + 4 <= extensionsEnd && pos + 4 <= transcript.length) {
+            uint256 extType = (uint256(uint8(transcript[pos])) << 8) | uint256(uint8(transcript[pos + 1]));
+            uint256 extLen = (uint256(uint8(transcript[pos + 2])) << 8) | uint256(uint8(transcript[pos + 3]));
+            pos += 4;
+            
+            if (extType == 0x0000) { // Server Name Indication extension
+                if (pos + extLen > transcript.length) return "";
+                
+                // Parse SNI extension
+                if (extLen < 5) return "";
+                
+                uint256 serverNameListLen = (uint256(uint8(transcript[pos])) << 8) | uint256(uint8(transcript[pos + 1]));
+                pos += 2;
+                
+                if (serverNameListLen + 2 > extLen) return "";
+                
+                // Parse first server name entry
+                if (pos + 3 >= transcript.length) return "";
+                if (uint8(transcript[pos]) != 0x00) return ""; // Must be hostname
+                
+                // Get name length (big endian)
+                pos += 3;
+                uint256 nameLen = (uint256(uint8(transcript[pos - 2])) << 8) | uint256(uint8(transcript[pos - 1]));
+                
+                if (nameLen == 0 || pos + nameLen > transcript.length) return "";
+                
+                // Simple hostname extraction
+                bytes memory result = new bytes(nameLen);
+                for (uint256 i = 0; i < nameLen;) {
+                    result[i] = transcript[pos + i];
+                    unchecked { ++i; }
                 }
+                return string(result);
             }
+            
+            pos += extLen;
         }
         
         return "";
@@ -242,21 +308,71 @@ contract TLSNVerifier is ZKProofVerifier {
      */
     function _validateNotarySignature(TLSNProofComponents memory components) 
         internal 
-        pure 
+        view 
         returns (bool) 
     {
-        if (components.notarySignature.length == 0) {
+        if (components.notarySignature.length != 65) { // Standard ECDSA signature length
             return false;
         }
         
-        // In a real implementation, this would verify the notary's signature
-        // using ECDSA or other signature schemes against a message hash:
-        // bytes32 messageHash = keccak256(abi.encodePacked(
-        //     components.sessionHash, components.transcriptHash, 
-        //     components.timestamp, components.serverName
-        // ));
-        // For now, we just check if we have a signature from a trusted notary
-        return components.notarySignature.length >= 64; // Minimum signature length
+        // Construct message hash from critical components
+        bytes32 messageHash = keccak256(abi.encodePacked(
+            components.sessionHash,
+            components.transcriptHash,
+            components.timestamp,
+            components.serverName,
+            components.notaryPubKey
+        ));
+        
+        // Add Ethereum signed message prefix
+        bytes32 ethSignedMessageHash = keccak256(abi.encodePacked(
+            "\x19Ethereum Signed Message:\n32",
+            messageHash
+        ));
+        
+        // Extract signature components
+        bytes32 r;
+        bytes32 s;
+        uint8 v;
+        
+        bytes memory notarySignature = components.notarySignature;
+        assembly {
+            let sig := add(notarySignature, 0x20)
+            r := mload(sig)
+            s := mload(add(sig, 0x20))
+            v := byte(0, mload(add(sig, 0x40)))
+        }
+        
+        // Adjust v if necessary (some libraries use 0/1 instead of 27/28)
+        if (v < 27) {
+            v += 27;
+        }
+        
+        // Recover signer address
+        address recovered = ecrecover(ethSignedMessageHash, v, r, s);
+        if (recovered == address(0)) {
+            return false;
+        }
+        
+        // Check if recovered address matches the notary public key
+        bytes memory notaryPubKey = components.notaryPubKey;
+        address expectedNotary = address(uint160(uint256(keccak256(notaryPubKey))));
+        if (recovered != expectedNotary) {
+            // Try alternative: check if recovered address is directly the notary
+            bytes20 notaryAddr;
+            if (notaryPubKey.length >= 20) {
+                assembly {
+                    notaryAddr := mload(add(notaryPubKey, 0x20))
+                }
+                if (recovered == address(notaryAddr)) {
+                    return _trustedNotaries[recovered];
+                }
+            }
+            return false;
+        }
+        
+        // Verify this notary is trusted
+        return _trustedNotaries[expectedNotary];
     }
 
     /**
@@ -267,21 +383,54 @@ contract TLSNVerifier is ZKProofVerifier {
         pure 
         returns (bool) 
     {
-        // Verify transcript hash
+        // Verify transcript hash matches
         bytes32 computedHash = keccak256(components.tlsTranscript);
         if (computedHash != components.transcriptHash) {
             return false;
         }
         
-        // Basic TLS structure validation
-        if (components.tlsTranscript.length < 10) {
+        // Validate minimum TLS record structure
+        if (components.tlsTranscript.length < 5) {
             return false;
         }
         
-        // Basic TLS structure validation (simplified - just check it's not empty)
-        // In production, this would do proper TLS parsing
+        // Validate TLS record structure
+        bytes memory transcript = components.tlsTranscript;
+        uint256 pos = 0;
         
-        return true;
+        while (pos + 5 <= transcript.length) {
+            // TLS Record Header: Type(1) + Version(2) + Length(2)
+            uint8 recordType = uint8(transcript[pos]);
+            uint16 version = (uint16(uint8(transcript[pos + 1])) << 8) | uint16(uint8(transcript[pos + 2]));
+            uint16 recordLength = (uint16(uint8(transcript[pos + 3])) << 8) | uint16(uint8(transcript[pos + 4]));
+            
+            // Validate record type (must be valid TLS record type)
+            if (recordType < 20 || recordType > 24) {
+                return false;
+            }
+            
+            // Validate TLS version (1.0, 1.1, 1.2, 1.3)
+            if (version != 0x0301 && version != 0x0302 && 
+                version != 0x0303 && version != 0x0304) {
+                return false;
+            }
+            
+            // Validate record length
+            if (recordLength == 0 || recordLength > 16384) { // Max TLS record size
+                return false;
+            }
+            
+            // Check if we have enough data for this record
+            if (pos + 5 + recordLength > transcript.length) {
+                return false;
+            }
+            
+            // Move to next record
+            pos += 5 + recordLength;
+        }
+        
+        // Should have consumed the entire transcript
+        return pos == transcript.length;
     }
 
     /**

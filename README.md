@@ -17,24 +17,6 @@ ZEPHIS Contracts provide the on-chain infrastructure for verifying zero-knowledg
 - **📊 Analytics & Tracking** - Comprehensive verification statistics and metrics
 - **🔄 Batch Operations** - Efficient batch proof verification for scalability
 
-## 📁 Project Structure
-
-```
-zephis-contracts/
-├── src/
-│   ├── verifiers/
-│   │   ├── IZKProofVerifier.sol     # Core verification interface
-│   │   ├── ZKProofVerifier.sol      # Base proof verification logic
-│   │   └── TLSNVerifier.sol         # TLSN-specific verification
-│   └── interfaces/
-├── test/
-│   ├── ZKProofVerifier.t.sol        # Main verification tests
-│   ├── TLSNVerifier.t.sol           # TLSN-specific tests
-│   └── ZKProofVerifierBranchCoverage.t.sol
-├── script/                          # Deployment scripts
-└── docs/                           # Documentation
-```
-
 ## 🚀 Quick Start
 
 ### Prerequisites
@@ -93,18 +75,6 @@ Specialized verifier for TLSN (TLS Notary) proofs:
 - **Server Name Extraction** - Extract server information from TLS handshakes
 - **Transcript Validation** - Verify TLS transcript integrity
 - **TLSN-Specific Logic** - Tailored verification for TLSN proof format
-
-## 📊 Test Coverage
-
-Our contracts maintain exceptional test coverage:
-
-| File | Lines | Statements | Branches | Functions |
-|------|-------|------------|----------|-----------|
-| **ZKProofVerifier.sol** | 99.32% (145/146) | 99.31% (143/144) | 83.33% (55/66) | 100.00% (22/22) |
-| **TLSNVerifier.sol** | 98.06% (101/103) | 98.17% (107/109) | 95.74% (45/47) | 100.00% (15/15) |
-| **Total** | **98.80% (246/249)** | **98.81% (250/253)** | **88.50% (100/113)** | **100.00% (37/37)** |
-
-✅ **109 tests passing** with comprehensive edge case coverage
 
 ## 🔧 Development Commands
 

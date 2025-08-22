@@ -196,10 +196,8 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 🔗 Links
 
-- **Documentation**: [docs.zephis.org](https://docs.zephis.org)
+- **Documentation**: [zephis.org/docs](https://zephis.org/docs)
 - **Website**: [zephis.org](https://zephis.org)
-- **Discord**: [discord.gg/zephis](https://discord.gg/zephis)
-- **Twitter**: [@ZephisProtocol](https://twitter.com/ZephisProtocol)
 
 ## 🏆 Acknowledgments
 

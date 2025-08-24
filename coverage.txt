@@ -1,0 +1,372 @@
+
+> @zephis-org/contracts@0.1.0 test:coverage
+> forge coverage
+
+Warning: optimizer settings and `viaIR` have been disabled for accurate coverage reports.
+If you encounter "stack too deep" errors, consider using `--ir-minimum` which enables `viaIR` with minimum optimization resolving most of the errors
+Compiling 54 files with Solc 0.8.28
+Solc 0.8.28 finished in 3.09s
+Compiler run successful with warnings:
+Warning (5667): Unused try/catch parameter. Remove or comment out the variable name to silence this warning.
+  --> test/Groth16Verifier.t.sol:55:83:
+   |
+55 |         try verifier.verifyProof(validProof, validPublicInputs, validVk) returns (bool result) {
+   |                                                                                   ^^^^^^^^^^^
+
+Warning (5667): Unused try/catch parameter. Remove or comment out the variable name to silence this warning.
+   --> test/Groth16Verifier.t.sol:127:20:
+    |
+127 |         ) returns (bool result) {
+    |                    ^^^^^^^^^^^
+
+Warning (5667): Unused try/catch parameter. Remove or comment out the variable name to silence this warning.
+   --> test/Groth16Verifier.t.sol:347:18:
+    |
+347 |         } catch (bytes memory reason) {
+    |                  ^^^^^^^^^^^^^^^^^^^
+
+Warning (2018): Function state mutability can be restricted to pure
+   --> test/GasTracker.t.sol:170:5:
+    |
+170 |     function testEstimateComplexOperationBasic() public {
+    |     ^ (Relevant source part starts here and spans across multiple lines).
+
+Warning (2018): Function state mutability can be restricted to pure
+   --> test/GasTracker.t.sol:182:5:
+    |
+182 |     function testEstimateComplexOperationComplex() public {
+    |     ^ (Relevant source part starts here and spans across multiple lines).
+
+Warning (2018): Function state mutability can be restricted to pure
+   --> test/GasTracker.t.sol:197:5:
+    |
+197 |     function testOptimizeBatchSizeNormal() public {
+    |     ^ (Relevant source part starts here and spans across multiple lines).
+
+Warning (2018): Function state mutability can be restricted to pure
+   --> test/GasTracker.t.sol:209:5:
+    |
+209 |     function testOptimizeBatchSizeCapped() public {
+    |     ^ (Relevant source part starts here and spans across multiple lines).
+
+Warning (2018): Function state mutability can be restricted to pure
+   --> test/GasTracker.t.sol:221:5:
+    |
+221 |     function testOptimizeBatchSizeMinimum() public {
+    |     ^ (Relevant source part starts here and spans across multiple lines).
+
+Warning (2018): Function state mutability can be restricted to pure
+   --> test/GasTracker.t.sol:244:5:
+    |
+244 |     function testCalculateEfficiencyScorePerfect() public {
+    |     ^ (Relevant source part starts here and spans across multiple lines).
+
+Warning (2018): Function state mutability can be restricted to pure
+   --> test/GasTracker.t.sol:254:5:
+    |
+254 |     function testCalculateEfficiencyScoreZeroGas() public {
+    |     ^ (Relevant source part starts here and spans across multiple lines).
+
+Warning (2018): Function state mutability can be restricted to pure
+   --> test/GasTracker.t.sol:260:5:
+    |
+260 |     function testCalculateEfficiencyScoreModerate() public {
+    |     ^ (Relevant source part starts here and spans across multiple lines).
+
+Warning (2018): Function state mutability can be restricted to pure
+   --> test/GasTracker.t.sol:266:5:
+    |
+266 |     function testCalculateEfficiencyScoreHighInefficiency() public {
+    |     ^ (Relevant source part starts here and spans across multiple lines).
+
+Warning (2018): Function state mutability can be restricted to pure
+   --> test/GasTracker.t.sol:272:5:
+    |
+272 |     function testCalculateEfficiencyScoreOverflowProtection() public {
+    |     ^ (Relevant source part starts here and spans across multiple lines).
+
+Warning (2018): Function state mutability can be restricted to pure
+   --> test/GasTracker.t.sol:278:5:
+    |
+278 |     function testOptimizationRecommendationsVerification() public {
+    |     ^ (Relevant source part starts here and spans across multiple lines).
+
+Warning (2018): Function state mutability can be restricted to pure
+   --> test/GasTracker.t.sol:290:5:
+    |
+290 |     function testOptimizationRecommendationsBatch() public {
+    |     ^ (Relevant source part starts here and spans across multiple lines).
+
+Warning (2018): Function state mutability can be restricted to pure
+   --> test/GasTracker.t.sol:299:5:
+    |
+299 |     function testOptimizationRecommendationsStorage() public {
+    |     ^ (Relevant source part starts here and spans across multiple lines).
+
+Warning (2018): Function state mutability can be restricted to pure
+   --> test/GasTracker.t.sol:308:5:
+    |
+308 |     function testOptimizationRecommendationsUnknown() public {
+    |     ^ (Relevant source part starts here and spans across multiple lines).
+
+Warning (2018): Function state mutability can be restricted to view
+  --> test/Groth16Verifier.t.sol:53:5:
+   |
+53 |     function testVerifyProofWithValidInputs() public {
+   |     ^ (Relevant source part starts here and spans across multiple lines).
+
+Warning (2018): Function state mutability can be restricted to view
+  --> test/Groth16Verifier.t.sol:65:5:
+   |
+65 |     function testVerifyProofWithZeroPoints() public {
+   |     ^ (Relevant source part starts here and spans across multiple lines).
+
+Warning (2018): Function state mutability can be restricted to view
+   --> test/Groth16Verifier.t.sol:122:5:
+    |
+122 |     function testVerifyProofWithCircuitValid() public {
+    |     ^ (Relevant source part starts here and spans across multiple lines).
+
+Warning (2018): Function state mutability can be restricted to view
+   --> test/Groth16Verifier.t.sol:149:5:
+    |
+149 |     function testBatchVerifyProofsValid() public {
+    |     ^ (Relevant source part starts here and spans across multiple lines).
+
+Warning (2018): Function state mutability can be restricted to view
+   --> test/Groth16Verifier.t.sol:188:5:
+    |
+188 |     function testComputeLinearCombination() public {
+    |     ^ (Relevant source part starts here and spans across multiple lines).
+
+Warning (2018): Function state mutability can be restricted to view
+   --> test/Groth16Verifier.t.sol:217:5:
+    |
+217 |     function testParseProofFromBytesValid() public {
+    |     ^ (Relevant source part starts here and spans across multiple lines).
+
+Warning (2018): Function state mutability can be restricted to view
+   --> test/Groth16Verifier.t.sol:241:5:
+    |
+241 |     function testBytesToUint256() public {
+    |     ^ (Relevant source part starts here and spans across multiple lines).
+
+Warning (2018): Function state mutability can be restricted to view
+   --> test/Groth16Verifier.t.sol:254:5:
+    |
+254 |     function testGetCurveParameters() public {
+    |     ^ (Relevant source part starts here and spans across multiple lines).
+
+Warning (2018): Function state mutability can be restricted to view
+   --> test/Groth16Verifier.t.sol:262:5:
+    |
+262 |     function testGetVerificationKeyForCircuit() public {
+    |     ^ (Relevant source part starts here and spans across multiple lines).
+
+Warning (2018): Function state mutability can be restricted to view
+   --> test/Groth16Verifier.t.sol:276:5:
+    |
+276 |     function testScalarMulG1EdgeCases() public {
+    |     ^ (Relevant source part starts here and spans across multiple lines).
+
+Warning (2018): Function state mutability can be restricted to view
+   --> test/Groth16Verifier.t.sol:297:5:
+    |
+297 |     function testAddG1EdgeCases() public {
+    |     ^ (Relevant source part starts here and spans across multiple lines).
+
+Warning (2018): Function state mutability can be restricted to view
+   --> test/Groth16Verifier.t.sol:354:5:
+    |
+354 |     function testPrecompiledContractFailures() public {
+    |     ^ (Relevant source part starts here and spans across multiple lines).
+
+Warning (2018): Function state mutability can be restricted to view
+   --> test/Groth16Verifier.t.sol:367:5:
+    |
+367 |     function testPairingVerification() public {
+    |     ^ (Relevant source part starts here and spans across multiple lines).
+
+Warning (2018): Function state mutability can be restricted to view
+   --> test/Groth16Verifier.t.sol:377:5:
+    |
+377 |     function testAssemblyOperations() public {
+    |     ^ (Relevant source part starts here and spans across multiple lines).
+
+Warning (2018): Function state mutability can be restricted to view
+   --> test/Groth16Verifier.t.sol:390:5:
+    |
+390 |     function testBN254BoundaryConditions() public {
+    |     ^ (Relevant source part starts here and spans across multiple lines).
+
+Warning (2018): Function state mutability can be restricted to view
+   --> test/Groth16Verifier.t.sol:411:5:
+    |
+411 |     function testMultiplePublicInputs() public {
+    |     ^ (Relevant source part starts here and spans across multiple lines).
+
+Warning (2018): Function state mutability can be restricted to view
+   --> test/Groth16Verifier.t.sol:433:5:
+    |
+433 |     function testBatchVerificationMixed() public {
+    |     ^ (Relevant source part starts here and spans across multiple lines).
+
+Analysing contracts...
+Running tests...
+
+Ran 2 tests for test/SimpleIntegration.t.sol:SimpleIntegrationTest
+[PASS] testBasicTemplateWorkflow() (gas: 873756)
+[PASS] testMultipleTemplates() (gas: 1661000)
+Suite result: ok. 2 passed; 0 failed; 0 skipped; finished in 6.25ms (2.68ms CPU time)
+
+Ran 26 tests for test/GasTracker.t.sol:GasTrackerTest
+[FAIL: panic: arithmetic underflow or overflow (0x11)] testCalculateEfficiencyScoreHighInefficiency() (gas: 1381)
+[PASS] testCalculateEfficiencyScoreModerate() (gas: 1516)
+[FAIL: panic: arithmetic underflow or overflow (0x11)] testCalculateEfficiencyScoreOverflowProtection() (gas: 1425)
+[PASS] testCalculateEfficiencyScorePerfect() (gas: 529)
+[PASS] testCalculateEfficiencyScoreZeroGas() (gas: 377)
+[PASS] testComprehensiveWorkflow() (gas: 39748)
+[PASS] testContract() (gas: 2844)
+[PASS] testEndMeasurement() (gas: 32871)
+[PASS] testEstimateComplexOperationBasic() (gas: 862)
+[PASS] testEstimateComplexOperationComplex() (gas: 2506)
+[PASS] testLog2EdgeCases() (gas: 25157)
+[PASS] testOptimizationRecommendationsBatch() (gas: 5765)
+[PASS] testOptimizationRecommendationsStorage() (gas: 5757)
+[PASS] testOptimizationRecommendationsUnknown() (gas: 4287)
+[PASS] testOptimizationRecommendationsVerification() (gas: 7168)
+[PASS] testOptimizeBatchSizeCapped() (gas: 1271)
+[FAIL: call didn't revert at a lower depth than cheatcode call depth] testOptimizeBatchSizeInvalidGasPerItem() (gas: 3636)
+[FAIL: call didn't revert at a lower depth than cheatcode call depth] testOptimizeBatchSizeMaxGasTooLow() (gas: 3684)
+[PASS] testOptimizeBatchSizeMinimum() (gas: 1300)
+[PASS] testOptimizeBatchSizeNormal() (gas: 1212)
+[PASS] testRecordGasUsage() (gas: 38218)
+[PASS] testRecordGasUsageFailure() (gas: 31759)
+[PASS] testStartMeasurement() (gas: 350)
+[PASS] testValidateGasUsageAboveRange() (gas: 11843)
+[PASS] testValidateGasUsageBelowRange() (gas: 11753)
+[PASS] testValidateGasUsageWithinRange() (gas: 1332)
+Suite result: FAILED. 22 passed; 4 failed; 0 skipped; finished in 6.92ms (5.06ms CPU time)
+
+Ran 10 tests for test/ExtractionEngine.t.sol:ExtractionEngineTest
+[PASS] testCleanupOldExtractions() (gas: 448140)
+[PASS] testHashExtractionData() (gas: 13498)
+[PASS] testParseJsonPath() (gas: 24489)
+[PASS] testProcessBatchExtraction() (gas: 1042263)
+[PASS] testProcessExtraction() (gas: 551393)
+[PASS] testRoleManagement() (gas: 37276)
+[PASS] testValidateExtraction() (gas: 22052)
+[PASS] testVerifyApiHash() (gas: 9727)
+[PASS] test_RevertWhen_ProcessExtractionWithInvalidProofId() (gas: 31665)
+[PASS] test_RevertWhen_ProcessExtractionWithoutRole() (gas: 21505)
+Suite result: ok. 10 passed; 0 failed; 0 skipped; finished in 7.38ms (1.50ms CPU time)
+
+Ran 15 tests for test/CircuitRegistry.t.sol:CircuitRegistryTest
+[PASS] testDeactivateCircuit() (gas: 330847)
+[PASS] testGetAllCircuitIds() (gas: 646025)
+[PASS] testGetCircuitByName() (gas: 350652)
+[PASS] testGetCircuitStats() (gas: 649435)
+[PASS] testGetCircuitVersions() (gas: 949246)
+[PASS] testIncrementProofCount() (gas: 402890)
+[PASS] testRegisterCircuit() (gas: 352480)
+[PASS] testRoleManagement() (gas: 41396)
+[PASS] test_RevertWhen_GetCircuitByNonexistentName() (gas: 19249)
+[PASS] test_RevertWhen_GetNonexistentCircuit() (gas: 34970)
+[PASS] test_RevertWhen_IncrementProofCountWithInactiveCircuit() (gas: 331145)
+[PASS] test_RevertWhen_RegisterCircuitWithoutRole() (gas: 16628)
+[PASS] test_RevertWhen_RegisterDuplicateCircuitName() (gas: 347689)
+[PASS] test_RevertWhen_RegisterEmptyName() (gas: 21981)
+[PASS] test_RevertWhen_RegisterEmptyVersion() (gas: 22012)
+Suite result: ok. 15 passed; 0 failed; 0 skipped; finished in 7.63ms (1.99ms CPU time)
+
+Ran 5 tests for test/Deploy.s.t.sol:DeployScriptTest
+[PASS] testDeployScriptCreation() (gas: 25090443)
+[PASS] testDeploymentExecution() (gas: 29828332)
+Logs:
+  Deploying contracts with deployer: 0x70997970C51812dc3A010C7d01b50e0d17dc79C8
+  Deployer balance: 0
+
+[PASS] testDifferentPrivateKey() (gas: 5791)
+[PASS] testEnvironmentVariableReading() (gas: 3472)
+[PASS] testScriptStructure() (gas: 25090446)
+Suite result: ok. 5 passed; 0 failed; 0 skipped; finished in 7.97ms (3.63ms CPU time)
+
+Ran 10 tests for test/VerificationTemplate.t.sol:VerificationTemplateTest
+[PASS] testBatchCreateTemplates() (gas: 1625836)
+[PASS] testCreateTemplate() (gas: 1089205)
+[PASS] testDeactivateTemplate() (gas: 870260)
+[PASS] testGetTemplateByName() (gas: 872380)
+[PASS] testGetTemplateStats() (gas: 886521)
+[PASS] testIncrementUsage() (gas: 931558)
+[PASS] test_RevertWhen_BatchCreateTemplatesEmpty() (gas: 23166)
+[PASS] test_RevertWhen_BatchCreateTemplatesTooMany() (gas: 89469)
+[PASS] test_RevertWhen_CreateDuplicateTemplate() (gas: 862523)
+[PASS] test_RevertWhen_CreateTemplateWithoutRole() (gas: 23027)
+Suite result: ok. 10 passed; 0 failed; 0 skipped; finished in 9.55ms (5.75ms CPU time)
+
+Ran 31 tests for test/Groth16Verifier.t.sol:Groth16VerifierTest
+[PASS] testAddG1EdgeCases() (gas: 29053220)
+[PASS] testAssemblyOperations() (gas: 29052672)
+[PASS] testBN254BoundaryConditions() (gas: 29951653)
+[PASS] testBatchVerificationMixed() (gas: 29053532)
+[PASS] testBatchVerifyProofsArrayMismatch() (gas: 123307)
+[PASS] testBatchVerifyProofsTooMany() (gas: 634481)
+[PASS] testBatchVerifyProofsValid() (gas: 29053236)
+[PASS] testBytesToUint256() (gas: 21562)
+[PASS] testComputeLinearCombination() (gas: 29052767)
+[PASS] testG2PointValidation() (gas: 106986)
+[PASS] testGetCurveParameters() (gas: 6140)
+[PASS] testGetVerificationKeyForCircuit() (gas: 69608)
+[PASS] testICLengthValidation() (gas: 98993)
+[PASS] testMultiplePublicInputs() (gas: 29053098)
+[PASS] testPairingVerification() (gas: 29052800)
+[PASS] testParseProofFromBytesInvalidLength() (gas: 16435)
+[PASS] testParseProofFromBytesValid() (gas: 102114)
+[PASS] testPointValidation() (gas: 29096417)
+[PASS] testPrecompiledContractFailures() (gas: 29052679)
+[PASS] testScalarMulG1EdgeCases() (gas: 29951663)
+[PASS] testValidatePairingInputs() (gas: 106520)
+[PASS] testVerifyProofInvalidInputLength() (gas: 102696)
+[PASS] testVerifyProofInvalidProofA() (gas: 106922)
+[PASS] testVerifyProofInvalidProofB() (gas: 107825)
+[PASS] testVerifyProofInvalidProofC() (gas: 107764)
+[PASS] testVerifyProofInvalidPublicInput() (gas: 103729)
+[PASS] testVerifyProofWithCircuitEmptyId() (gas: 42645)
+[PASS] testVerifyProofWithCircuitNoInputs() (gas: 37819)
+[PASS] testVerifyProofWithCircuitValid() (gas: 47180)
+[PASS] testVerifyProofWithValidInputs() (gas: 29052800)
+[PASS] testVerifyProofWithZeroPoints() (gas: 86913)
+Suite result: ok. 31 passed; 0 failed; 0 skipped; finished in 9.52ms (11.38ms CPU time)
+
+Ran 7 tests for test/ZKProofVerifier.t.sol:ZKProofVerifierTest
+[PASS] testChallengeProof() (gas: 2300525)
+[PASS] testGetVerificationStats() (gas: 13277)
+[PASS] testPauseAndUnpause() (gas: 40680)
+[PASS] testUpdateConfig() (gas: 28493)
+[PASS] testVerifyProof() (gas: 2106361)
+[PASS] test_RevertWhen_VerifyEmptyProof() (gas: 25737)
+[PASS] test_RevertWhen_VerifyProofWithInactiveTemplate() (gas: 34427)
+Suite result: ok. 7 passed; 0 failed; 0 skipped; finished in 10.30ms (4.60ms CPU time)
+
+Ran 9 tests for test/AssertionVerifier.t.sol:AssertionVerifierTest
+[PASS] testBatchEvaluateAssertions() (gas: 668153)
+[PASS] testCleanupOldAssertions() (gas: 367611)
+[PASS] testDifferentComparisonOperators() (gas: 1869176)
+[PASS] testEvaluateAssertions() (gas: 664254)
+[PASS] testEvaluateAssertionsWithFailure() (gas: 347735)
+[PASS] testGetAssertionStats() (gas: 637027)
+[PASS] testRoleManagement() (gas: 37257)
+[PASS] test_RevertWhen_EvaluateAssertionsWithInvalidInput() (gas: 30599)
+[PASS] test_RevertWhen_EvaluateAssertionsWithoutRole() (gas: 21854)
+Suite result: ok. 9 passed; 0 failed; 0 skipped; finished in 11.05ms (7.57ms CPU time)
+
+Ran 9 test suites in 166.41ms (76.57ms CPU time): 111 tests passed, 4 failed, 0 skipped (115 total tests)
+
+Failing tests:
+Encountered 4 failing tests in test/GasTracker.t.sol:GasTrackerTest
+[FAIL: panic: arithmetic underflow or overflow (0x11)] testCalculateEfficiencyScoreHighInefficiency() (gas: 1381)
+[FAIL: panic: arithmetic underflow or overflow (0x11)] testCalculateEfficiencyScoreOverflowProtection() (gas: 1425)
+[FAIL: call didn't revert at a lower depth than cheatcode call depth] testOptimizeBatchSizeInvalidGasPerItem() (gas: 3636)
+[FAIL: call didn't revert at a lower depth than cheatcode call depth] testOptimizeBatchSizeMaxGasTooLow() (gas: 3684)
+
+Encountered a total of 4 failing tests, 111 tests succeeded

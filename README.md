@@ -1,187 +1,82 @@
-![ZEPHIS Cover](cover.webp)
+![ZEPHIS Cover](assets/cover.webp)
 
-# ZEPHIS Contracts
+**ZEPHIS** (Zero Exposure Proof Handling Isolated Sessions) is an open-source ZK-TLS framework that generates cryptographic proofs of TLS sessions, enabling users to prove web interactions without revealing sensitive data. Unlike simple API scrapers, ZEPHIS provides mathematical proof at the TLS protocol layer, ensuring cryptographic integrity from TLS handshake to application data.
 
-Smart contracts for privacy-preserving authentication and data verification through zero-knowledge proofs of TLS communications.
-
-## 🌟 Overview
-
-ZEPHIS Contracts provide the on-chain infrastructure for verifying zero-knowledge TLS proofs, enabling privacy-first authentication without exposing sensitive user data. The protocol supports multiple proof systems including TLSN (TLS Notary) and MPCTLS proofs.
-
-## ✨ Features
-
-- **🔒 Zero-Knowledge TLS Proof Verification** - Verify TLS communications without revealing content
-- **🌐 Multi-Proof System Support** - TLSN, MPCTLS, and custom proof types
-- **⚖️ Governance & Challenges** - Decentralized challenge mechanism for proof disputes
-- **🛡️ Security-First Design** - Role-based access control and pausable contracts
-- **📊 Analytics & Tracking** - Comprehensive verification statistics and metrics
-- **🔄 Batch Operations** - Efficient batch proof verification for scalability
+ZEPHIS Contracts provide the smart contract infrastructure for on-chain verification of these zero-knowledge proofs, supporting TLS handshake validation, session key commitment, and transcript integrity verification.
 
 ## 🚀 Quick Start
 
-### Prerequisites
-
-- [Foundry](https://getfoundry.sh/) - Ethereum development toolkit
-- [Node.js](https://nodejs.org/) v16+ (if using npm scripts)
-- [Git](https://git-scm.com/)
-
-### Installation
-
 ```bash
-# Clone the repository
 git clone https://github.com/zephis-org/zephis-contracts.git
 cd zephis-contracts
-
-# Install Foundry dependencies
 forge install
-
-# Compile contracts
 forge build
-```
-
-### Testing
-
-```bash
-# Run all tests
 forge test
-
-# Run tests with verbosity
-forge test -vvv
-
-# Run specific test contract
-forge test --match-contract ZKProofVerifierTest
-
-# Generate coverage report
-forge coverage --report summary
 ```
 
-## 🏗️ Smart Contracts
+## 💻 Basic Usage
 
-### ZKProofVerifier.sol
+```solidity
+// Verify a TLS session proof
+IZKTLSVerifier.TLSProof memory proof = IZKTLSVerifier.TLSProof({
+    sessionId: sessionId,
+    handshakeCommitment: handshakeCommitment,
+    keyCommitment: keyCommitment,
+    transcriptRoot: transcriptRoot,
+    groth16Proof: groth16Proof,
+    publicInputs: publicInputs
+});
 
-Core contract for zero-knowledge proof verification with the following features:
+bool isValid = zktlsVerifier.verifyTLSProof(proof);
 
-- **Proof Submission** - Submit ZK-TLS proofs for verification
-- **Verification Process** - Cryptographic verification of submitted proofs
-- **Challenge System** - 7-day challenge period for disputes
-- **Access Control** - Role-based permissions (VERIFIER_ROLE, CHALLENGER_ROLE, ADMIN_ROLE)
-- **Batch Operations** - Efficient batch verification up to 50 proofs
+// Check session validity
+bool isSessionValid = zktlsVerifier.isValidSession(sessionId);
 
-### TLSNVerifier.sol
+// Get verification result
+IZKTLSVerifier.VerificationResult memory result = zktlsVerifier.getVerificationResult(sessionId);
+```
 
-Specialized verifier for TLSN (TLS Notary) proofs:
+## ✨ Core Features
 
-- **Notary Management** - Trusted notary registration and verification
-- **Server Name Extraction** - Extract server information from TLS handshakes
-- **Transcript Validation** - Verify TLS transcript integrity
-- **TLSN-Specific Logic** - Tailored verification for TLSN proof format
+- **Zero-Knowledge Proof Verification**: Groth16 zk-SNARK proofs with configurable circuit verifiers and time-based expiration
+- **TLS Session Management**: Handshake validation, session key commitment, and transcript proof management with selective reveal
+- **Trusted CA Registry**: Certificate authority management with Merkle tree validation and configurable validity periods
+- **Security & Access Control**: Role-based permissions, reentrancy protection, and comprehensive input validation
+- **Flexible Configuration**: TLS 1.2/1.3 support, multiple cipher suites, and KDF algorithms (HKDF-SHA256, HKDF-SHA384, TLS-PRF)
+- **Data Management**: Selective transcript reveal, Merkle proof integration, and complete session state tracking
+- **Development Tools**: Foundry testing, Slither security analysis, and multiple gas-optimized build profiles
 
-## 🔧 Development Commands
+
+## 🧪 Testing
 
 ```bash
-# Compile contracts
-forge build
-
-# Run tests
-forge test
-
-# Run tests with gas reporting
-forge test --gas-report
-
-# Format code
-forge fmt
-
-# Generate documentation
-forge doc
-
-# Run slither security analysis
-slither .
-
-# Deploy to local network
-forge script script/Deploy.s.sol --fork-url http://localhost:8545 --broadcast
+forge test                    # Run all tests
+forge test -vvv              # Verbose output
+forge coverage              # Coverage report
+slither .                   # Security analysis
 ```
 
-## 🛠️ Configuration
+## 📖 Documentation
 
-### Supported Proof Types
-
-- **TLSN** - TLS Notary proofs (enabled by default)
-- **MPCTLS** - Multi-Party Computation TLS proofs (enabled by default)
-- **CUSTOM** - Custom proof types (disabled by default, admin-configurable)
-
-### Key Parameters
-
-- **Challenge Period**: 7 days
-- **Max Proof Size**: 1MB
-- **Max Batch Size**: 50 proofs
-- **Query Limit**: 100 results
-
-## 🔐 Security Features
-
-- **Role-Based Access Control** - Multi-level permission system
-- **Reentrancy Protection** - OpenZeppelin ReentrancyGuard
-- **Pausable Contracts** - Emergency pause functionality
-- **Input Validation** - Comprehensive validation of all inputs
-- **Challenge Mechanism** - Community-driven dispute resolution
-
-## 🌐 Deployment
-
-### Local Development
-
-```bash
-# Start local Foundry node
-anvil
-
-# Deploy contracts
-forge script script/Deploy.s.sol --rpc-url http://localhost:8545 --broadcast
-```
-
-### Testnet Deployment
-
-```bash
-# Deploy to Sepolia
-forge script script/Deploy.s.sol --rpc-url $SEPOLIA_RPC_URL --broadcast --verify
-
-# Deploy to Base Sepolia
-forge script script/Deploy.s.sol --rpc-url $BASE_SEPOLIA_RPC_URL --broadcast --verify
-```
+For detailed documentation and advanced features, visit:
+- [Official Documentation](https://zephis.org/docs)
 
 ## 🤝 Contributing
 
-We welcome contributions! Please see our [Contributing Guide](CONTRIBUTING.md) for details.
-
-### Development Setup
+Contributions are welcome! Please feel free to submit a Pull Request.
 
 1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Make your changes
-4. Run tests (`forge test`)
-5. Commit your changes (`git commit -am 'Add amazing feature'`)
-6. Push to the branch (`git push origin feature/amazing-feature`)
-7. Open a Pull Request
+2. Create your feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add some amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
 
 ## 📄 License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-## 🔗 Links
+## 📬 Contact
 
-- **Documentation**: [zephis.org/docs](https://zephis.org/docs)
-- **Website**: [zephis.org](https://zephis.org)
+Zephis Team - [https://zephis.org](https://zephis.org)
 
-## 🏆 Acknowledgments
-
-- [OpenZeppelin](https://openzeppelin.com/) for secure smart contract libraries
-- [Foundry](https://getfoundry.sh/) for the excellent development toolkit
-- [TLS Notary](https://tlsnotary.org/) for the TLSN protocol inspiration
-- The broader zero-knowledge and privacy community
-
----
-
-<p align="center">
-  <strong>Built with ❤️ by the ZEPHIS team</strong>
-</p>
-
-<p align="center">
-  <em>Privacy-first authentication for the decentralized web</em>
-</p>
+Project Link: [https://github.com/zephis-org](https://github.com/zephis-org)

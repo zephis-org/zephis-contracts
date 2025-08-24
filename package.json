@@ -1,7 +1,9 @@
 {
   "name": "@zephis-org/contracts",
   "version": "0.1.0",
-  "description": "Smart contracts for ZEPHIS Protocol - Zero Exposure Proof Handling Isolated Sessions",
+  "description": "ZEPHIS (Zero Exposure Proof Handling Isolated Sessions) is an open-source ZK-TLS framework that generates cryptographic proofs of TLS sessions, enabling users to prove web interactions without revealing sensitive data.",
+  "author": "Berke Kiran",
+  "license": "MIT",
   "main": "out/package.json",
   "files": [
     "out/**/*",
@@ -35,8 +37,6 @@
     "ethereum",
     "foundry"
   ],
-  "author": "ZEPHIS Protocol",
-  "license": "MIT",
   "devDependencies": {
     "solhint": "^5.0.3"
   },

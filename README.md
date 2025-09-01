@@ -1,4 +1,4 @@
-# Zephis Contracts
+![ZEPHIS Cover](assets/intro.webp)
 
 Smart contracts for ZEPHIS Protocol that enables on-chain verification of cryptographic proofs of TLS sessions.
 

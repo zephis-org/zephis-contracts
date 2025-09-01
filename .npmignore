@@ -1,0 +1,58 @@
+# Development files
+.env
+.env.*
+!.env.example
+
+# Git
+.git
+.github
+.gitignore
+.gitmodules
+
+# Build artifacts (for Foundry)
+cache/
+out/
+broadcast/
+
+# Test files
+test/
+coverage_debug.txt
+lcov.info
+
+# Scripts (deployment scripts shouldn't be in npm package)
+script/
+
+# Foundry config (users should have their own)
+foundry.toml
+foundry.lock
+
+# Development dependencies
+lib/
+
+# Documentation that's not needed in package
+DEV-PLAN.md
+DEVELOPMENT.md
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Source code (only distribute compiled artifacts)
+src/
+
+# Keep only compiled artifacts and docs
+# artifacts/
+# README.md
+# LICENSE
+# package.json

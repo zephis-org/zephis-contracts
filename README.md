@@ -1,219 +1,78 @@
-![ZEPHIS Cover](cover.webp)
+# Zephis Contracts
 
-# ZEPHIS Contracts
+Smart contracts for ZEPHIS Protocol that enables on-chain verification of cryptographic proofs of TLS sessions.
 
-Smart contracts for privacy-preserving authentication and data verification through zero-knowledge proofs of TLS communications.
+[![npm version](https://badge.fury.io/js/@zephis%2Fcontracts.svg)](https://badge.fury.io/js/@zephis%2Fcontracts)
+[![Solidity](https://img.shields.io/badge/Solidity-%5E0.8.19-blue)](https://docs.soliditylang.org/)
+[![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg)](https://github.com/prettier/prettier)
+[![Foundry](https://img.shields.io/badge/Built%20with-Foundry-FFDB1C.svg)](https://book.getfoundry.sh/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-## 🌟 Overview
+## Installation
 
-ZEPHIS Contracts provide the on-chain infrastructure for verifying zero-knowledge TLS proofs, enabling privacy-first authentication without exposing sensitive user data. The protocol supports multiple proof systems including TLSN (TLS Notary) and MPCTLS proofs.
-
-## ✨ Features
-
-- **🔒 Zero-Knowledge TLS Proof Verification** - Verify TLS communications without revealing content
-- **🌐 Multi-Proof System Support** - TLSN, MPCTLS, and custom proof types
-- **⚖️ Governance & Challenges** - Decentralized challenge mechanism for proof disputes
-- **🛡️ Security-First Design** - Role-based access control and pausable contracts
-- **📊 Analytics & Tracking** - Comprehensive verification statistics and metrics
-- **🔄 Batch Operations** - Efficient batch proof verification for scalability
-
-## 📁 Project Structure
-
-```
-zephis-contracts/
-├── src/
-│   ├── verifiers/
-│   │   ├── IZKProofVerifier.sol     # Core verification interface
-│   │   ├── ZKProofVerifier.sol      # Base proof verification logic
-│   │   └── TLSNVerifier.sol         # TLSN-specific verification
-│   └── interfaces/
-├── test/
-│   ├── ZKProofVerifier.t.sol        # Main verification tests
-│   ├── TLSNVerifier.t.sol           # TLSN-specific tests
-│   └── ZKProofVerifierBranchCoverage.t.sol
-├── script/                          # Deployment scripts
-└── docs/                           # Documentation
-```
-
-## 🚀 Quick Start
-
-### Prerequisites
-
-- [Foundry](https://getfoundry.sh/) - Ethereum development toolkit
-- [Node.js](https://nodejs.org/) v16+ (if using npm scripts)
-- [Git](https://git-scm.com/)
-
-### Installation
+### Using Foundry
 
 ```bash
-# Clone the repository
-git clone https://github.com/zephis-org/zephis-contracts.git
-cd zephis-contracts
-
-# Install Foundry dependencies
-forge install
-
-# Compile contracts
-forge build
+forge install zephis-org/zephis-contracts
 ```
 
-### Testing
+### Using npm
 
 ```bash
-# Run all tests
-forge test
-
-# Run tests with verbosity
-forge test -vvv
-
-# Run specific test contract
-forge test --match-contract ZKProofVerifierTest
-
-# Generate coverage report
-forge coverage --report summary
+npm install @zephis/contracts
 ```
 
-## 🏗️ Smart Contracts
+## Basic Usage
 
-### ZKProofVerifier.sol
+```solidity
+import "@zephis/contracts/ZephisVerifier.sol";
 
-Core contract for zero-knowledge proof verification with the following features:
-
-- **Proof Submission** - Submit ZK-TLS proofs for verification
-- **Verification Process** - Cryptographic verification of submitted proofs
-- **Challenge System** - 7-day challenge period for disputes
-- **Access Control** - Role-based permissions (VERIFIER_ROLE, CHALLENGER_ROLE, ADMIN_ROLE)
-- **Batch Operations** - Efficient batch verification up to 50 proofs
-
-### TLSNVerifier.sol
-
-Specialized verifier for TLSN (TLS Notary) proofs:
-
-- **Notary Management** - Trusted notary registration and verification
-- **Server Name Extraction** - Extract server information from TLS handshakes
-- **Transcript Validation** - Verify TLS transcript integrity
-- **TLSN-Specific Logic** - Tailored verification for TLSN proof format
-
-## 📊 Test Coverage
-
-Our contracts maintain exceptional test coverage:
-
-| File | Lines | Statements | Branches | Functions |
-|------|-------|------------|----------|-----------|
-| **ZKProofVerifier.sol** | 99.32% (145/146) | 99.31% (143/144) | 83.33% (55/66) | 100.00% (22/22) |
-| **TLSNVerifier.sol** | 98.06% (101/103) | 98.17% (107/109) | 95.74% (45/47) | 100.00% (15/15) |
-| **Total** | **98.80% (246/249)** | **98.81% (250/253)** | **88.50% (100/113)** | **100.00% (37/37)** |
-
-✅ **109 tests passing** with comprehensive edge case coverage
-
-## 🔧 Development Commands
-
-```bash
-# Compile contracts
-forge build
-
-# Run tests
-forge test
-
-# Run tests with gas reporting
-forge test --gas-report
-
-# Format code
-forge fmt
-
-# Generate documentation
-forge doc
-
-# Run slither security analysis
-slither .
-
-# Deploy to local network
-forge script script/Deploy.s.sol --fork-url http://localhost:8545 --broadcast
+contract MyContract {
+    using ZephisVerifier for ZephisVerifier.ProofData;
+    
+    function verifyUserProof(
+        ZephisVerifier.ProofData memory proof,
+        ZephisVerifier.PublicInputs memory inputs
+    ) external view returns (bool) {
+        return ZephisVerifier.verifyProof(proof, inputs);
+    }
+}
 ```
 
-## 🛠️ Configuration
+## Core Features
 
-### Supported Proof Types
+- **Pure Verification Functions**: Stateless proof verification for seamless integration in any smart contract
+- **Gas-Optimized**: Efficient cryptographic operations optimized for EVM execution
+- **Replay Protection**: Built-in timestamp validation to prevent proof replay attacks
+- **Custom Validity Periods**: Configurable proof expiration for different use cases
+- **Security Utilities**: Helper functions for signature verification and secure hashing
+- **Multi-chain Support**: Deploy and verify proofs across all EVM-compatible chains
+- **Comprehensive Testing**: Full test coverage with gas optimization benchmarks
+- **Type-Safe Structures**: Well-defined data structures for proof and input handling
+- **Integration Examples**: Ready-to-use templates for DeFi, identity, and attestation protocols
 
-- **TLSN** - TLS Notary proofs (enabled by default)
-- **MPCTLS** - Multi-Party Computation TLS proofs (enabled by default)
-- **CUSTOM** - Custom proof types (disabled by default, admin-configurable)
+## 📖 Documentation
 
-### Key Parameters
-
-- **Challenge Period**: 7 days
-- **Max Proof Size**: 1MB
-- **Max Batch Size**: 50 proofs
-- **Query Limit**: 100 results
-
-## 🔐 Security Features
-
-- **Role-Based Access Control** - Multi-level permission system
-- **Reentrancy Protection** - OpenZeppelin ReentrancyGuard
-- **Pausable Contracts** - Emergency pause functionality
-- **Input Validation** - Comprehensive validation of all inputs
-- **Challenge Mechanism** - Community-driven dispute resolution
-
-## 🌐 Deployment
-
-### Local Development
-
-```bash
-# Start local Foundry node
-anvil
-
-# Deploy contracts
-forge script script/Deploy.s.sol --rpc-url http://localhost:8545 --broadcast
-```
-
-### Testnet Deployment
-
-```bash
-# Deploy to Sepolia
-forge script script/Deploy.s.sol --rpc-url $SEPOLIA_RPC_URL --broadcast --verify
-
-# Deploy to Base Sepolia
-forge script script/Deploy.s.sol --rpc-url $BASE_SEPOLIA_RPC_URL --broadcast --verify
-```
+For detailed documentation and advanced features, visit:
+- [Official Documentation](https://zephis.org/docs/contracts)
+- [Integration Guide](https://zephis.org/docs/contracts/integration)
 
 ## 🤝 Contributing
 
-We welcome contributions! Please see our [Contributing Guide](CONTRIBUTING.md) for details.
-
-### Development Setup
+Contributions are welcome! Please feel free to submit a Pull Request.
 
 1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Make your changes
-4. Run tests (`forge test`)
-5. Commit your changes (`git commit -am 'Add amazing feature'`)
-6. Push to the branch (`git push origin feature/amazing-feature`)
-7. Open a Pull Request
+2. Create your feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add some amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
 
 ## 📄 License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-## 🔗 Links
+## 📬 Contact
 
-- **Documentation**: [docs.zephis.org](https://docs.zephis.org)
-- **Website**: [zephis.org](https://zephis.org)
-- **Discord**: [discord.gg/zephis](https://discord.gg/zephis)
-- **Twitter**: [@ZephisProtocol](https://twitter.com/ZephisProtocol)
+Zephis Team - [https://zephis.org](https://zephis.org)
 
-## 🏆 Acknowledgments
-
-- [OpenZeppelin](https://openzeppelin.com/) for secure smart contract libraries
-- [Foundry](https://getfoundry.sh/) for the excellent development toolkit
-- [TLS Notary](https://tlsnotary.org/) for the TLSN protocol inspiration
-- The broader zero-knowledge and privacy community
-
----
-
-<p align="center">
-  <strong>Built with ❤️ by the ZEPHIS team</strong>
-</p>
-
-<p align="center">
-  <em>Privacy-first authentication for the decentralized web</em>
-</p>
+Project Link: [https://github.com/zephis-org/zephis-contracts](https://github.com/zephis-org/zephis-contracts)

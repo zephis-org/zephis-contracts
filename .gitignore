@@ -54,3 +54,6 @@ gas-report.txt
 
 # Slither
 slither-results/
+
+# Claude AI
+CLAUDE.md

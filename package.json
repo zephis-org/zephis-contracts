@@ -1,7 +1,9 @@
 {
   "name": "@zephis/contracts",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Smart contracts for ZEPHIS Protocol that enables on-chain verification of cryptographic proofs of TLS sessions.",
+  "author": "Berke Kiran",
+  "license": "MIT",
   "main": "artifacts/src/ZephisVerifierContract.sol/ZephisVerifier.json",
   "files": [
     "artifacts/**/*.json",
@@ -38,8 +40,6 @@
     "access": "public",
     "registry": "https://registry.npmjs.org/"
   },
-  "author": "Zephis Team",
-  "license": "MIT",
   "dependencies": {},
   "devDependencies": {
     "forge-std": "^1.0.0"
